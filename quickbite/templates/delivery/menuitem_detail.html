@@ -1,0 +1,12 @@
+{% extends 'delivery/base.html' %}
+{% block content %}
+  <h2>{{ menuitem.name }}</h2>
+  <p class="muted">{{ menuitem.restaurant.name }}</p>
+  <p>{{ menuitem.description }}</p>
+  <p>Price: ₱{{ menuitem.price }}</p>
+  {% if menuitem.is_available %}
+    <a href="{% url 'create_order' %}">Order this</a>
+  {% else %}
+    <p class="muted">Currently unavailable</p>
+  {% endif %}
+{% endblock %}

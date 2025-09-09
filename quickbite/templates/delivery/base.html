@@ -1,0 +1,37 @@
+{% load static %}
+
+
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>QuickBite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="{% static 'delivery/styles.css' %}" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="logo"><a href="{% url 'restaurant_list' %}">QuickBite</a></h1>
+      <nav>
+        <a href="{% url 'restaurant_list' %}">Restaurants</a>
+        <a href="{% url 'menuitem_list' %}">Menu</a>
+        <a href="{% url 'menuitem_create' %}">Add Item</a>
+        <a href="{% url 'restaurant_create' %}">Add Restaurant</a>
+      </nav>
+      <form class="search" action="{% url 'search' %}" method="get">
+        <input type="text" name="q" placeholder="Search restaurants or dishes..." value="{{ request.GET.q|default:'' }}">
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  </header>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© QuickBite - Local Food Delivery</div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% extends 'delivery/base.html' %}
+{% block content %}
+<h2>Restaurants</h2>
+{% if restaurants %}
+  <div class="grid">
+  {% for r in restaurants %}
+    <div class="card">
+      <h3><a href="{{ r.get_absolute_url }}">{{ r.name }}</a></h3>
+      <p class="muted">{{ r.address }}</p>
+      <p>{{ r.description|truncatechars:120 }}</p>
+      <div class="card-actions">
+        <a href="{% url 'restaurant_update' r.pk %}">Edit</a>
+        <a href="{% url 'restaurant_delete' r.pk %}">Delete</a>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+  {% if is_paginated %}
+    <div class="pagination">
+      {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">Prev</a>{% endif %}
+      <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">Next</a>{% endif %}
+    </div>
+  {% endif %}
+{% else %}
+  <p>No restaurants yet. <a href="{% url 'restaurant_create' %}">Add one</a>.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'delivery/base.html' %}
+{% block content %}
+  <h2>{{ restaurant.name }}</h2>
+  <p class="muted">{{ restaurant.address }} | {{ restaurant.phone }}</p>
+  <p>{{ restaurant.description }}</p>
+
+  <h3>Menu</h3>
+  <ul>
+    {% for item in restaurant.menu_items.all %}
+      <li>
+        <a href="{{ item.get_absolute_url }}">{{ item.name }}</a> — ₱{{ item.price }}
+        {% if not item.is_available %}<span class="muted"> (not available)</span>{% endif %}
+      </li>
+    {% empty %}
+      <li>No menu items yet.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

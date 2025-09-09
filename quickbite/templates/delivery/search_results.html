@@ -1,0 +1,26 @@
+{% extends 'delivery/base.html' %}
+{% block content %}
+  <h2>Search results for "{{ query }}"</h2>
+
+  <h3>Restaurants</h3>
+  {% if restaurants %}
+    <ul>
+      {% for r in restaurants %}
+        <li><a href="{{ r.get_absolute_url }}">{{ r.name }}</a> — {{ r.address }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No restaurants found.</p>
+  {% endif %}
+
+  <h3>Dishes</h3>
+  {% if menu_items %}
+    <ul>
+      {% for m in menu_items %}
+        <li><a href="{{ m.get_absolute_url }}">{{ m.name }}</a> — {{ m.restaurant.name }} — ₱{{ m.price }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No dishes found.</p>
+  {% endif %}
+{% endblock %}

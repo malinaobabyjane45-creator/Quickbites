@@ -1,0 +1,28 @@
+{% extends 'delivery/base.html' %}
+{% block content %}
+<h2>Menu Items</h2>
+{% if menuitems %}
+  <div class="grid">
+  {% for m in menuitems %}
+    <div class="card">
+      <h3><a href="{{ m.get_absolute_url }}">{{ m.name }}</a></h3>
+      <p class="muted">{{ m.restaurant.name }}</p>
+      <p>₱{{ m.price }}</p>
+      <div class="card-actions">
+        <a href="{% url 'menuitem_update' m.pk %}">Edit</a>
+        <a href="{% url 'menuitem_delete' m.pk %}">Delete</a>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+  {% if is_paginated %}
+    <div class="pagination">
+      {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">Prev</a>{% endif %}
+      <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">Next</a>{% endif %}
+    </div>
+  {% endif %}
+{% else %}
+  <p>No menu items yet. <a href="{% url 'menuitem_create' %}">Add one</a>.</p>
+{% endif %}
+{% endblock %}
