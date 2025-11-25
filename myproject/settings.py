@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY
 SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-default-key")
 DEBUG = os.environ.get("DEBUG", "False") == "True"
-ALLOWED_HOSTS = ["*"]  # Or your Railway app domain
+ALLOWED_HOSTS = ["quickbites-production.up.railway.app"]  # Or your Railway app domain
 
 # Application definition
 INSTALLED_APPS = [

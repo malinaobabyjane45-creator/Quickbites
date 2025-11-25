@@ -1,0 +1,38 @@
+:root{
+  --bg: #f7f9fc;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --accent: #ff6b6b;
+  --text: #0f172a;
+  --container: 1100px;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color:var(--text);
+  line-height:1.5;
+}
+.container{max-width:var(--container);margin:0 auto;padding:1rem;}
+.site-header{background:linear-gradient(90deg,#fff,#f9fafb);border-bottom:1px solid #e6e9ef;padding:0.5rem 0;}
+.logo a{font-weight:700;color:var(--accent);text-decoration:none;font-size:1.4rem}
+.site-header nav{display:inline-block;margin-left:2rem;}
+.site-header nav a{margin-right:1rem;text-decoration:none;color:var(--muted)}
+.search{display:inline-block;float:right}
+.search input{padding:6px 10px;border-radius:6px;border:1px solid #e3e6ee}
+.search button{padding:6px 10px;margin-left:6px;border-radius:6px;background:var(--accent);border:none;color:white}
+
+h2{margin-top:1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem}
+.card{background:var(--card);padding:1rem;border-radius:12px;box-shadow:0 6px 20px rgba(11,15,30,0.04)}
+.card h3{margin:0 0 6px}
+.card-actions{margin-top:8px}
+.card-actions a{margin-right:10px;color:var(--accent);text-decoration:none}
+
+.muted{color:var(--muted);font-size:0.95rem}
+.btn{padding:8px 14px;border-radius:8px;border:none;background:var(--accent);color:white}
+
+.site-footer{margin-top:2rem;padding:1rem;border-top:1px solid #e6e9ef;text-align:center;color:var(--muted)}
+.pagination{margin-top:1rem}
