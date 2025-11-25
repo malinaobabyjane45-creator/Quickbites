@@ -5,11 +5,16 @@ Django settings for myproject project.
 import dj_database_url
 import os
 from pathlib import Path
+import logging
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# -----------------------------
+# BASE
+# -----------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# -----------------------------
 # SECURITY
+# -----------------------------
 SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-default-key")
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
@@ -19,7 +24,14 @@ ALLOWED_HOSTS = [
     "localhost",
 ]
 
-# Application definition
+# CSRF trusted origins for production HTTPS
+CSRF_TRUSTED_ORIGINS = [
+    "https://quickbites-production.up.railway.app",
+]
+
+# -----------------------------
+# APPLICATION DEFINITION
+# -----------------------------
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -34,10 +46,10 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',   # <-- REQUIRED FOR RAILWAY STATIC
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Required for Railway static
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',  # CSRF protection
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -62,7 +74,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
-# Database (Railway/PostgreSQL)
+# -----------------------------
+# DATABASE (Railway/PostgreSQL)
+# -----------------------------
 DATABASES = {
     "default": dj_database_url.parse(
         os.environ.get("DATABASE_URL") or 
@@ -72,7 +86,9 @@ DATABASES = {
     )
 }
 
-# Password validation
+# -----------------------------
+# PASSWORD VALIDATION
+# -----------------------------
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -80,36 +96,52 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Internationalization
+# -----------------------------
+# INTERNATIONALIZATION
+# -----------------------------
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
 # -----------------------------
-# STATIC FILES CONFIG (FIXED)
+# STATIC FILES CONFIGURATION
 # -----------------------------
 STATIC_URL = '/static/'
 
-# Folder for your local static files (css, js, images)
+# Local static files
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / "quickbite" / "static"
 ]
 
-# Folder where Django collects all static files for production
+# Collected static files for production
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# WhiteNoise compressed static files (Railway requirement)
+# WhiteNoise storage (compressed + cacheable)
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# Default primary key field type
+# -----------------------------
+# DEFAULT PRIMARY KEY
+# -----------------------------
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Crispy forms
+# -----------------------------
+# CRISPY FORMS
+# -----------------------------
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-# Optional: logging for production
-import logging
+# -----------------------------
+# LOGGING
+# -----------------------------
 logging.basicConfig(level=logging.INFO)
 logging.info("Django settings loaded successfully.")
+
+# -----------------------------
+# SECURITY & DEPLOYMENT NOTES
+# -----------------------------
+# 1. Ensure DEBUG=False in production
+# 2. Ensure CSRF_TRUSTED_ORIGINS includes your Railway HTTPS URL
+# 3. Run migrations: railway run python manage.py migrate
+# 4. Collect static: railway run python manage.py collectstatic --noinput
+# 5. Add initial data via admin or shell
