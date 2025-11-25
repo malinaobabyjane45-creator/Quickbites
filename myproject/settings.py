@@ -12,7 +12,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY
 SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-default-key")
 DEBUG = os.environ.get("DEBUG", "False") == "True"
-ALLOWED_HOSTS = ["quickbites-production.up.railway.app"]  # Or your Railway app domain
+
+ALLOWED_HOSTS = [
+    "quickbites-production.up.railway.app",
+    "127.0.0.1",
+    "localhost",
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -29,6 +34,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',   # <-- REQUIRED FOR RAILWAY STATIC
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -66,7 +72,6 @@ DATABASES = {
     )
 }
 
-
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -81,9 +86,21 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files
+# -----------------------------
+# STATIC FILES CONFIG (FIXED)
+# -----------------------------
 STATIC_URL = '/static/'
+
+# Folder for your local static files (css, js, images)
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+# Folder where Django collects all static files for production
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# WhiteNoise compressed static files (Railway requirement)
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
