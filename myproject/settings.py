@@ -58,10 +58,11 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 
 # Database (Railway/PostgreSQL)
 DATABASES = {
-    "default": dj_database_url.config(
-        default="postgres://postgres:0906@localhost:5432/quickbite",  # local dev
+    "default": dj_database_url.parse(
+        os.environ.get("DATABASE_URL") or 
+        "postgresql://postgres:eWSPUNxuDTFdpFgcstmLSGrjgKHEpgwR@metro.proxy.rlwy.net:17078/railway",
         conn_max_age=600,
-        ssl_require=os.environ.get("DATABASE_URL") is not None  # SSL only on Railway
+        ssl_require=os.environ.get("DATABASE_URL") is not None
     )
 }
 
