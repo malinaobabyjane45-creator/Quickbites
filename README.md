@@ -1,7 +1,7 @@
 # A Simple App Project
 
 A simple app project that allows you to **add restaurant menus** and **search for them**.  
-This project is deployed live on Railway: [QuickBites Live](https://quickbites-production.up.railway.app)
+This project is deployed live on Railway: [QuickBites](https://quickbites-production.up.railway.app)
 
 ---
 
