@@ -22,7 +22,7 @@ git clone https://github.com/malinaobabyjane45-creator/Quickbites.git
 
 2. Set the environment
   python -m venv env
-. env\Scripts\activate
+  env\Scripts\activate
 
 3. Install dependencies
 
