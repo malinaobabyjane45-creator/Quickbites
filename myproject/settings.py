@@ -2,7 +2,6 @@
 Django settings for myproject project.
 """
 
-import dj_database_url
 import os
 from pathlib import Path
 import logging
@@ -15,18 +14,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # -----------------------------
 # SECURITY
 # -----------------------------
-SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-default-key")
-DEBUG = os.environ.get("DEBUG", "False") == "True"
+SECRET_KEY = "django-insecure-local-dev-key"
+DEBUG = True
 
 ALLOWED_HOSTS = [
-    "quickbites-production.up.railway.app",
     "127.0.0.1",
     "localhost",
-]
-
-# CSRF trusted origins for production HTTPS
-CSRF_TRUSTED_ORIGINS = [
-    "https://quickbites-production.up.railway.app",
 ]
 
 # -----------------------------
@@ -39,17 +32,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'crispy_forms',
-    'quickbite',
     'crispy_bootstrap5',
+    'quickbite',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Required for Railway static
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',  # CSRF protection
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -75,15 +68,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
 # -----------------------------
-# DATABASE (Railway/PostgreSQL)
+# DATABASE (LOCAL SQLITE)
 # -----------------------------
 DATABASES = {
-    "default": dj_database_url.parse(
-        os.environ.get("DATABASE_URL") or 
-        "postgresql://postgres:eWSPUNxuDTFdpFgcstmLSGrjgKHEpgwR@metro.proxy.rlwy.net:17078/railway",
-        conn_max_age=600,
-        ssl_require=os.environ.get("DATABASE_URL") is not None
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 # -----------------------------
@@ -105,24 +96,13 @@ USE_I18N = True
 USE_TZ = True
 
 # -----------------------------
-# STATIC FILES CONFIGURATION
+# STATIC FILES
 # -----------------------------
 STATIC_URL = '/static/'
-
-# Local static files
 STATICFILES_DIRS = [
     BASE_DIR / "quickbite" / "static"
 ]
 
-# Collected static files for production
-STATIC_ROOT = BASE_DIR / "staticfiles"
-
-# WhiteNoise storage (compressed + cacheable)
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
-# -----------------------------
-# DEFAULT PRIMARY KEY
-# -----------------------------
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # -----------------------------
@@ -135,13 +115,4 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 # LOGGING
 # -----------------------------
 logging.basicConfig(level=logging.INFO)
-logging.info("Django settings loaded successfully.")
-
-# -----------------------------
-# SECURITY & DEPLOYMENT NOTES
-# -----------------------------
-# 1. Ensure DEBUG=False in production
-# 2. Ensure CSRF_TRUSTED_ORIGINS includes your Railway HTTPS URL
-# 3. Run migrations: railway run python manage.py migrate
-# 4. Collect static: railway run python manage.py collectstatic --noinput
-# 5. Add initial data via admin or shell
+logging.info("Django settings loaded successfully (SQLite mode).")
